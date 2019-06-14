@@ -13,7 +13,7 @@ A simple, minimal, and easy to maintain design pattern for developing an Apex tr
 - Prevent recursion with separate control over before and after triggers
   
 //Object Shared Resources
-- Prep all resources needed for object classes
+- Prep all resources needed for processes
 - Central class methods to eliminate duplicating actions (e.g. SOQL queries) that impact governor limits
 - Loaded before processes in Object Trigger Agenda
 - Available throughout the execution context via static variables and collections
