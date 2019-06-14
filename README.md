@@ -2,8 +2,7 @@
 
 A simple, minimal, and easy to maintain design pattern for developing an Apex trigger handler.
 
-//Features
-- Object Trigger
+//Object Trigger
 - Single line Apex trigger (No business logic)
 - Connects to Object Trigger Agenda and passes all necessary trigger information
   
