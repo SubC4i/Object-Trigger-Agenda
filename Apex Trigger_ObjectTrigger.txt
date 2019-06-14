@@ -1,0 +1,13 @@
+/*
+* Apex Trigger: ObjectTrigger
+* Description: 
+	- Central object trigger
+* Created By: [Full Name]
+* Created Date: [Date]
+* Last Modified By: [Full Name]
+* Last Modified: [Date]
+*/
+
+trigger ObjectTrigger on sObject (before insert, before update, before delete, after insert, after update, after delete) {
+	ObjectTriggerAgenda.runAgenda(trigger.isBefore, trigger.isAfter, trigger.isInsert, trigger.isUpdate, trigger.isDelete, trigger.new, trigger.newMap, trigger.old, trigger.oldMap);
+}
