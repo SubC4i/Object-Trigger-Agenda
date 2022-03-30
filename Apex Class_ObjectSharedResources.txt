@@ -10,17 +10,14 @@
 */
 
 public class ObjectSharedResources {
-
 	//Current User
 	public static User currentUser = [SELECT Id, Name, ContactId, ProfileId, Profile.Name FROM User WHERE Id=:UserInfo.getUserId() LIMIT 1];
 	public static Id currentUserId = currentUser.Id;
 	public static String currentUserName = currentUser.Name;
 	public static String currentUserProfileName = currentUser.Profile.Name;
-
 	//Profiles
 	public static List<Profile> profileList = new List<Profile>([SELECT Id, Name FROM Profile]);
 	public static Map<String,Id> profileIdMap = new Map<String,Id>();
-
 	//Users
 	public static List<User> userList = new List<User>([SELECT Id, Name, Username, Email, IsActive, Profile.Name, UserRole.Name FROM User WHERE UserType = 'Standard']);
 	public static Map<Id,User> userMap = new Map<Id,User>(userList);
@@ -28,27 +25,22 @@ public class ObjectSharedResources {
 	public static Map<Id,String> userProfileMap = new Map<Id,String>();
 	public static Map<String,User> userEmailMap = new Map<String,User>();
 	public static Map<Id,String> userIdEmailMap = new Map<Id,String>();
-
 	//Record Types
 	public static List<RecordType> recordTypeList = new List<RecordType>([SELECT Id, Name, SobjectType FROM RecordType WHERE SobjectType = 'sObject1' OR SobjectType = 'sObject2']);
 	public static Map<String,Map<String,Id>> recordTypeNameMap = new Map<String,Map<String,Id>>();
 	public static Map<String,Map<String,Id>> recordTypeIdMap = new Map<String,Map<String,Id>>();
-
 	//Public Groups
 	public static List<Group> groupList = new List<Group>([SELECT Id, Name, DeveloperName, Type FROM Group WHERE Type = 'Regular']);
 	public static Map<Id,Group> groupMap = new Map<Id,Group>(groupList);
 	public static Map<String,Group> groupNameMap = new Map<String,Group>();
 	public static List<GroupMember> groupMemberList = new List<GroupMember>();
 	public static Map<String,List<Id>> groupMemberMap = new Map<String,List<Id>>();
-
 	//Queues
 	public static List<Group> queueList = new List<Group>([SELECT Id, Name FROM Group WHERE Type = 'Queue']);
 	public static Map<String,Id> queueNameMap = new Map<String,Id>();
-
 	//Custom Metadata Type
 	public static List<Custom_Metadata_Type__mdt> customMetadataList = new List<Custom_Metadata_Type__mdt>([SELECT Id, Field1__c, Field2__c, Field3__c FROM Custom_Metadata_Type__mdt]);
 	public static Map<String,Custom_Metadata_Type__mdt> customMetadataMap = new Map<String,Custom_Metadata_Type__mdt>();
-
 	//Org Wide Email Addresses
 	public static List<OrgWideEmailAddress> orgWideEmailList = new List<OrgWideEmailAddress>([SELECT Id, Address, DisplayName FROM OrgWideEmailAddress]);
 	public static Map<String,Id> orgWideEmailMap = new Map<String,Id>();
@@ -58,7 +50,6 @@ public class ObjectSharedResources {
 		for(Profile p: profileList){
 			profileIdMap.put(p.Name,p.Id);
 		}
-
 		//Users
 		for(User u: userList){
 			userFullnameMap.put(u.Name, u);
@@ -66,7 +57,6 @@ public class ObjectSharedResources {
 			userEmailMap.put(u.Email,u);
 			userIdEmailMap.put(u.Id,u.Email);
 		}
-
 		//Record Types
 		for(RecordType rt: recordTypeList){
 			if(recordTypeNameMap.containsKey(rt.SobjectType)){
@@ -80,12 +70,10 @@ public class ObjectSharedResources {
 				recordTypeNameMap.put(rt.SobjectType,tempRecordTypeMap);
 			}
 		}
-
 		//Public Groups
 		for(Group g: groupList){
 			groupNameMap.put(g.Name,g);
 		}
-
 		//Public Group Members
 		groupMemberList = [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN:groupMap.keySet()];
 		for(GroupMember gm: groupMemberList){
@@ -108,17 +96,14 @@ public class ObjectSharedResources {
 				}
 			}
 		}
-
 		//Queues
 		for(Group g: queueList){
 			queueNameMap.put(g.Name,g.Id);
 		}
-
 		//Custom Metadata Type
 		for(Custom_Metadata_Type__mdt cmt: customMetadataList){
 			customMetadataMap.put(cmt.Field2__c,cmt);
 		}
-
 		//Org Wide Email Addresses
 		for(OrgWideEmailAddress owa: orgWideEmailList){
 			orgWideEmailMap.put(owa.DisplayName,owa.Id);
