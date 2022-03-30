@@ -8,28 +8,25 @@
 * Last Modified: [Date]
 */
 
-public with sharing class ObjectTriggerAgenda {
+public class ObjectTriggerAgenda {
 	
 	public static Boolean isActive = true;
 	public static Set<String> hasRunBefore = new Set<String>();
 	public static Set<String> hasRunAfter = new Set<String>();
 
 	public static void runAgenda(Boolean isBefore, Boolean isAfter, Boolean isInsert, Boolean isUpdate, Boolean isDelete, List<sObject> newList, Map<Id,sObject> newMap, List<sObject> oldList, Map<Id,sObject> oldMap){
-		
 		//Trigger Agenda Power Switch
 		if(isActive == false){
 			System.debug('ObjectTriggerAgenda has been deactivated for this execution context.');
 			System.debug('|isBefore = '+isBefore+'|isAfter = '+isAfter+'|isInsert = '+isInsert+'|isUpdate = '+isUpdate+'|isDelete = '+isDelete+'|');
 			return;
 		}
-
 		//Load Object Shared Resources
 		if(!hasRunBefore.contains('ObjectSharedResources') && !hasRunAfter.contains('ObjectSharedResources')){
 			hasRunBefore.add('ObjectSharedResources');
 			hasRunAfter.add('ObjectSharedResources');
 			ObjectSharedResources.prepResources();
 		}
-
 		//Process 1
 		if(isBefore && (isInsert || isUpdate) && !hasRunBefore.contains('Process1Class')){
 			hasRunBefore.add('Process1Class');
@@ -41,21 +38,18 @@ public with sharing class ObjectTriggerAgenda {
 			Process1Class.entryMethod(isBefore, isAfter, isInsert, isUpdate, isDelete, newList, newMap, oldList, oldMap);
 			hasRunAfter.remove('Process1Class');
 		}
-
 		//Process 2
 		if(isBefore && (isInsert || isUpdate) && !hasRunBefore.contains('Process2Class')){
 			hasRunBefore.add('Process2Class');
 			Process2Class.entryMethod(isBefore, isAfter, isInsert, isUpdate, isDelete, newList, newMap, oldList, oldMap);
 			hasRunBefore.remove('Process2Class');
 		}
-
 		//Process 3
 		if(isAfter && (isInsert || isUpdate) && !hasRunAfter.contains('Process3Class')){
 			hasRunAfter.add('Process3Class');
 			Process3Class.entryMethod(isBefore, isAfter, isInsert, isUpdate, isDelete, newList, newMap, oldList, oldMap);
 			hasRunAfter.remove('Process3Class');
 		}
-
 		//Template for additional processes
 		/*
 		if(isBefore && (isInsert || isUpdate) && !hasRunBefore.contains('ClassName')){
